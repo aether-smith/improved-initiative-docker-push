@@ -71,13 +71,14 @@ jobs:
         if: ${{ steps.version-check.outputs.tag == 'not found' || github.event_name == 'workflow_dispatch' }}
         id: push
         uses: docker/build-push-action@v6
+        env:
+          DOCKER_BUILD_RECORD_UPLOAD: false
         with:
           context: app
           file: './hydrogen-Dockerfile'
           push: true
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
-          provenance: false
 
       # Generate attestation for the sake of completeness
       - name: Generate artifact attestation
